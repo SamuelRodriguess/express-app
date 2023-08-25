@@ -22,7 +22,7 @@ app.get("/json", (req, res) => {
 
 app.get(
   "/now",
-  (req, _, _) => {
+  (req, res, next) => {
     const timeValue = new Date();
     console.log("timeValue", timeValue);
     req.time = timeValue;
@@ -34,5 +34,16 @@ app.get(
     next();
   }
 );
+
+app.get("/:word/echo", (req, res, next) => {
+  if (!req.params.word) {
+    return;
+  }
+  res.json({
+    echo: req.params.word,
+  });
+
+  next();
+});
 
 module.exports = app;
